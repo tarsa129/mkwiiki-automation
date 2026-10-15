@@ -21,12 +21,11 @@ def get_wbz_id_from_page(category, skip_until, file):
             if not wbz_id:
                 continue
             new_title = page_entry["title"].replace(" ", "_")
-            family_ids.append({"page_id": page_entry["pageid"], "page_name": new_title, "wbzid_list": [wbz_id]})
+            family_ids.append({"page_id": page_entry["pageid"], "page_name": new_title, "wbzid_list": [int(wbz_id)]})
             if len(family_ids) % WRITE_BATCH_SIZE == WRITE_BATCH_SIZE - 1:
                 with open(file, "a") as f:
                     f.write(json.dumps(family_ids, indent = 1)[1:-1])
                 family_ids.clear()
-                break
         except:
             print("ERROR WITH ENTRY", page_entry)
 
