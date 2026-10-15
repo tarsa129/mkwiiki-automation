@@ -44,3 +44,21 @@ def get_image_from_id(image_id):
     except Exception as e:
         print(e)
         return None
+
+def get_wbz_file_from_id(wbz_id):
+    headers = {
+        'User-Agent': SZSLIBRARY_API_KEY,
+    }
+
+    params = {
+        "id": wbz_id
+    }
+
+    try:
+        response = requests.get(SZSLIBRARY_DOWNLOAD, headers=headers, params=params)
+        if response.content == b'<meta http-equiv="refresh" content="0; url=/../">':
+            return None
+        return response.content
+    except Exception as e:
+        print(e)
+        return None
