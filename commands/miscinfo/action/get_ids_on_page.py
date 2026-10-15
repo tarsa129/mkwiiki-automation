@@ -25,9 +25,12 @@ def get_wbz_id_from_page(category, skip_until, file):
             if len(family_ids) % WRITE_BATCH_SIZE == WRITE_BATCH_SIZE - 1:
                 with open(file, "a") as f:
                     f.write(json.dumps(family_ids, indent = 1)[1:-1])
+                    f.write(",")
                 family_ids.clear()
+
         except:
             print("ERROR WITH ENTRY", page_entry)
 
     with open(file, "a") as f:
+        f.write(json.dumps(family_ids, indent=1)[1:-1])
         f.write("]\n}")
