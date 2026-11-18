@@ -14,8 +14,6 @@ def get_wbz_id_from_miscinfo(family_id, misc_info_arguments):
             print(f"{family_id}: Matching with SZSLib version {track_info.get_full_versionname()} without spaces.")
             return track_info
 
-    print(f"{family_id}: Could not find exact SZSLib match for {misc_info_arguments['version']}, searching for date {misc_info_arguments['date of release']} instead.")
-
     def match_on_baseversion_date(x: SZSLibraryTrackInfo):
         version_filter = misc_info_arguments["version"].startswith(x.track_version)
         date_filter = x.track_created == misc_info_arguments["date of release"]
@@ -24,9 +22,11 @@ def get_wbz_id_from_miscinfo(family_id, misc_info_arguments):
     #If version names are unsynced (see TGAW), then we can go by the date
     matching_dates = list(filter(lambda x: match_on_baseversion_date(x), track_infos))
     if not matching_dates:
+        print(
+            f"{family_id}: Could not find exact SZSLib match for {misc_info_arguments['version']}, with date {misc_info_arguments['date of release']}.")
+
         return None
 
-    print(f"{family_id}: Found some match for {misc_info_arguments['date of release']}.")
     if len(matching_dates) == 1:
         return matching_dates[0]
 

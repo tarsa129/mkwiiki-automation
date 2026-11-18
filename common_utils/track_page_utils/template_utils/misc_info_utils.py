@@ -9,7 +9,7 @@ def get_ordered_miscinfo_arguments():
                        "image","image-id", "image2", "image-id2", "image3", "image-id3", "image4", "image-id4", "image5", "image-id5",
                        "image-description", "image-description2", "image-description3", "image-description4", "image-description5",
                        "creator", "author", "designer", "version", "date of release",
-                       "editors used", "video", "scale", "wbz-id",
+                       "editors used", "video", "scale", "ai-usage", "wbz-id",
                        "download", "download2", "download3", "download4", "download5", "download6",
                        "download7", "download8", "download9", "download10"]
     for expected_param in expected_params:

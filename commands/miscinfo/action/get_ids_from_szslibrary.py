@@ -60,6 +60,9 @@ class FamilyIDInformation:
         return self.miscinfo_information["version"]
 
     def is_trackinfo_written(self):
+        if "wbz-id" not in self.miscinfo_information or self.miscinfo_information["wbz-id"] == "":
+            return False
+
         effective_image_id = self.miscinfo_information["image-id"]
         if effective_image_id == "0":
             return True
