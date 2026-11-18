@@ -21,6 +21,15 @@ def validate_distros(distros: dict):
 
     return is_valid
 
+def distros_sort_key(distro_name):
+    lower_distro_name = distro_name[0].lower()
+    if lower_distro_name.startswith("the "):
+        return lower_distro_name[4:]
+    elif lower_distro_name.startswith("an "):
+        return lower_distro_name[3:]
+    elif lower_distro_name.startswith("a "):
+        return lower_distro_name[2:]
+    return lower_distro_name
 
 def combine_distros(curr_distros: dict, new_distros: dict, action):
     for new_distro, new_distro_text in new_distros.items():
@@ -36,4 +45,4 @@ def combine_distros(curr_distros: dict, new_distros: dict, action):
                 warnings.warn("{} not on the page!".format(new_distro))
             else:
                 curr_distros[new_distro] = new_distro_text
-    return dict(sorted(curr_distros.items(), key=lambda x: x[0].lower()))
+    return dict(sorted(curr_distros.items(), key=lambda x: distros_sort_key(x)))
