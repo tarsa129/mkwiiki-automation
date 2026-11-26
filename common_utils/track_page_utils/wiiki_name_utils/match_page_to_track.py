@@ -1,3 +1,4 @@
+import logging
 import re
 import warnings
 
@@ -9,18 +10,14 @@ class TrackPageName:
         self.mod_type = mod_type
         self.authors = authors
 
-    def check_modtype_authors(self, mod_type, authors):
+    def check_with_track(self, base_name, mod_type, authors):
+        logging.info(f"checking {self.full_name}: {self.base_name != base_name }, {self.mod_type != mod_type}")
+        if self.base_name != base_name or self.mod_type != mod_type:
+            return False
+
         authors_converted = set([author.replace("_", " ") for author in authors])
-        author_check = self.authors == authors_converted
-        mod_type_check = mod_type == self.mod_type
-
-        strict_check = author_check and mod_type_check
-        #Authors are not always communicated in a page name, but mod type always is.
-        loose_check = (self.authors is None or author_check) and (mod_type is None or mod_type_check)
-        return loose_check, strict_check
-
-    def check_authors(self, authors):
-        return self.authors == authors
+        logging.info(f"author check b/t {self.authors} and {authors_converted}: {self.authors == authors_converted}")
+        return self.authors is None or self.authors == authors_converted
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -44,7 +41,7 @@ def get_parenthesis_groups(page_text):
             continue
 
         curr_group += s
-        if curr_group.count("(") == curr_group.count(")"):
+        if s == ")" and curr_group.count("(") == curr_group.count(")"):
             groups.append(curr_group)
             curr_group = ""
 
@@ -92,5 +89,5 @@ def parse_page_name(page_name_text, base_name):
         return track_page_name
     parenthesis_groups = page_name_text[len(base_name):]
     track_page_name.mod_type, track_page_name.authors = read_parenthetical_groups(parenthesis_groups)
-
+    logging.info(f"parsed page title {track_page_name}")
     return track_page_name

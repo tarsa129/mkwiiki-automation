@@ -4,7 +4,7 @@ from common_utils.file_writer import write_csv_file
 from common_utils.szslibrary_helpers import *
 from common_utils.track_page_utils.template_utils import misc_info_utils
 from common_utils.track_page_utils.version_utils.version_disambiguation import get_wbz_id_from_miscinfo
-from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_name_authors
+from common_utils.track_page_utils.wiiki_name_utils.track_disambiguation import get_page_from_track_info
 from tockdomio import tockdomread
 
 def get_latest_version(page_id):
@@ -15,9 +15,7 @@ def get_latest_version(page_id):
 def get_familyid_information(track_info: SZSLibraryTrackInfo):
     page_id = track_info.track_wiki
     if not page_id:
-        found_page_id, found_page_name = get_page_from_name_authors(track_info.get_full_trackname(),
-                                                              track_info.get_mod_type(),
-                                                              track_info.track_author)
+        found_page_id, found_page_name = get_page_from_track_info(track_info)
         if not found_page_id:
             warnings.warn(f"wbz_id {track_info.id_first} - {track_info.get_full_trackname_version()} does not have an associated page.")
             return None, None

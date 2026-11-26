@@ -1,3 +1,5 @@
+import logging
+
 from commands.miscinfo import miscinfo_handler
 from commands.distro_list import distro_list_handler
 from commands.distroinfo import distroinfo_handler
@@ -24,6 +26,8 @@ def call_command_action(command_args):
         upload_file_handler.handler.handle_action(command_args)
 
 if __name__ == "__main__":
+    logging.basicConfig(filename="logs.log", level=logging.INFO)
+
     import argparse
 
     parser = argparse.ArgumentParser()
